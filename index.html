@@ -72,6 +72,18 @@ h1{font:800 clamp(38px,6vw,64px)/1.02 "Barlow Condensed",sans-serif;letter-spaci
 .lean .num b{display:block;font:700 18px/1.1 "Barlow Condensed",sans-serif;color:var(--mintd)}
 .lean .c{font-size:13.5px}
 @media(max-width:600px){.lean{grid-template-columns:minmax(0,1fr) auto}.lean .c{grid-column:1/-1}}
+.props{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px}
+.prop{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:6px}
+.prop .hd{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
+.prop .pk{font:700 19px/1.15 "Barlow Condensed",sans-serif}
+.prop .nm{font-size:14px;font-weight:600}
+.gauge{position:relative;height:10px;background:var(--line);border-radius:6px;margin:6px 0 2px}
+.gauge i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--mintd)}
+.gauge b{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.gl{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.prop .pp{font-size:12.5px;color:var(--muted)}
+.prop .pp strong{color:var(--ink)}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 .box h3{font:700 20px/1.1 "Barlow Condensed",sans-serif;margin:0 0 8px}
 .box ul{margin:0;padding-left:18px}
@@ -110,6 +122,7 @@ footer b{color:#fff}
 <nav><div class="wrap">
   <a class="logo" href="#top">The <span>Model</span></a>
   <a class="l" href="#board">This week</a>
+  <a class="l" href="#props">Props</a>
   <a class="l" href="#record">Record</a>
   <a class="l" href="#how">How it works</a>
   <a class="l" href="#archive">Archive</a>
@@ -133,6 +146,13 @@ footer b{color:#fff}
     <div class="box av"><h3>Staying away</h3><ul id="avoid"></ul></div>
     <div class="box"><h3>How a lean becomes a best bet</h3><ul><li>The model and at least two independent signals agree</li><li>The line hasn't moved against us</li><li>No correlated best bet in the same game</li><li>Confidence tiers: <b>Solid</b> is a good bet with a real edge, <b>Strong</b> adds strong supporting signals, and <b>Top play</b> is rare. Every tier is a bet worth making; leans sit below Solid. Confidence is separate from edge size.</li></ul></div>
   </div>
+
+  <section id="props">
+    <h2>Props</h2>
+    <p class="lede">New this week: the prop model projects passing and receiving yards from recent form, the opponent's defense and the team's expected points, then prices every prop line across the books. These are tracked separately and don't count in the record until the model builds a history against real prop lines. It currently leans under on most props, so treat these as leans.</p>
+    <div class="props" id="propList"></div>
+    <p class="note">Showing the 10 strongest of 78 props priced. Rushing props are left out because the model is least reliable there. Check injury reports and role changes before betting any prop.</p>
+  </section>
 
   <section id="record">
     <h2>The record</h2>
@@ -199,11 +219,13 @@ const leans=[
 const radar=[["Kansas +7","MyBookie −110 · model has it even, 27–27"],["Eagles +8.5 at Dallas","Model: Dallas by 5"],["UConn / Wyoming OVER 47.5","Bovada −112 · model total 57"]];
 const avoid=[["UCLA +6.5","Biggest model edge on the board, but UCLA is down to its third-string QB."],["Northwestern −3 and the over","Aidan Chiles has been out since early November; the model is mostly built on him."],["Ohio State / Michigan over","Julian Sayin's injury, which the model can't see."]];
 const log=[["Nov 21","North Texas at Tulane","Under 55.5","−110","W","52 pts"],["Nov 21","UCLA at Michigan","Under 37.5","−110","W","34 pts"],["Nov 21","Kentucky at Missouri","Under 48.5","−115","W","42 pts"],["Nov 21","Oklahoma State at Arizona State","Oklahoma State −2.5","−115","W","Won by 3"],["Nov 22","Steelers at Eagles","Under 38.5","−110","W","35 pts"],["Nov 22","Jets at Chargers","Under 41.5","−110","L","51 pts"],["Nov 22","Vikings vs 49ers","49ers −3","−110","W","Won by 25"],["Nov 22","Steelers at Eagles","Joe Milton under 187.5 pass yds","−114","W","141 yds"],["Nov 22","Vikings vs 49ers","Justin Jefferson under 88.5 rec yds","−110","W","86 yds"]];
+const props=[["Konata Mumpfield", "LA vs GB", "Wed 8:00 PM", "Under 37.5 rec yds", 28.3, 37.5, 74, 52.6, "DraftKings −111"], ["Jordan Love", "GB vs LA", "Wed 8:00 PM", "Under 272.5 pass yds", 239.7, 272.5, 69, 53.1, "DraftKings −113"], ["Tyler Higbee", "LA vs GB", "Wed 8:00 PM", "Under 33.5 rec yds", 27.8, 33.5, 67, 52.2, "DraftKings −109"], ["Amon-Ra St. Brown", "DET vs CHI", "Thu 1:00 PM", "Under 89.5 rec yds", 78.4, 89.5, 64, 52.4, "DraftKings −110"], ["Tucker Kraft", "GB vs LA", "Wed 8:00 PM", "Under 38.5 rec yds", 34.9, 38.5, 64, 53.1, "DraftKings −113"], ["Chig Okonkwo", "WAS vs CIN", "Mon 8:15 PM", "Under 43.5 rec yds", 38.0, 43.5, 64, 53.1, "FanDuel −113"], ["Colston Loveland", "CHI vs DET", "Thu 1:00 PM", "Under 54.5 rec yds", 48.7, 54.5, 64, 53.3, "FanDuel −114"], ["DeVonta Smith", "PHI vs DAL", "Thu 4:30 PM", "Under 64.5 rec yds", 58.6, 64.5, 64, 53.3, "FanDuel −114"], ["Matthew Golden", "GB vs LA", "Wed 8:00 PM", "Under 73.5 rec yds", 68.7, 73.5, 61, 52.8, "DraftKings −112"], ["Dak Prescott", "DAL vs PHI", "Thu 4:30 PM", "Over 261.5 pass yds", 282.4, 261.5, 61, 52.8, "DraftKings −112"]];
 const max=13;
 const card=p=>`<article class="play"><div class="top"><span>${p.ko}</span><span class="u${p.u<1?" h":""}">${p.u<1?"½ UNIT":"1 UNIT"}</span></div><h3 class="bet">${p.bet}</h3><div class="best">Best: ${p.best}</div><div class="sb"><div>${p.a[0]}<b>${p.a[1]}</b></div><div>${p.b[0]}<b>${p.b[1]}</b></div><div class="e">${p.e[0]}<b>${p.e[1]}</b></div></div><div class="ml"><span>Edge vs market</span><span>${p.e[2]} pts</span></div><div class="meter" aria-label="Edge ${p.e[2]} points of ${max}"><i style="width:${Math.round(p.e[2]/max*100)}%"></i></div><div class="conf"><span>Confidence</span><span class="dots" aria-hidden="true">${Array.from({length:5},(_,i)=>`<i class="${i<p.c?"on":""}"></i>`).join("")}</span><b>${["","","","Solid","Strong","Top play"][p.c]}</b></div><div class="wp">${p.wp}</div><p class="why"><b>Why I like it:</b> ${p.why}</p><p class="risk">Risk: ${p.risk}</p></article>`;
 const grp=(lg,t,s)=>`<div class="grp"><h2>${t}</h2><span>${s}</span></div><div class="plays">${plays.filter(p=>p.lg===lg).map(card).join("")}</div>`;
 document.getElementById("board").innerHTML=`<div class="grp"><h2>Best bets · 2 this week</h2><span>1 unit each · lines as of Mon 1:41 PM ET</span></div><div class="plays">${plays.map(card).join("")}</div>`;
 document.getElementById("leans").innerHTML=leans.map(l=>`<div class="lean"><div><b class="t">${l[0]}</b><div class="k">${l[1]}</div></div><div class="num">${l[2]}<b>Edge ${l[3]}</b></div><div class="c">${l[4]}</div></div>`).join("");
+document.getElementById("propList").innerHTML=props.map(r=>{const sc=Math.max(r[4],r[5])*1.25;return `<article class="prop"><div class="hd"><span>${r[1]} · ${r[2]} ET</span><span>${r[8]}</span></div><div class="nm">${r[0]}</div><div class="pk">${r[3]}</div><div class="gauge" aria-label="Projection ${r[4]}, line ${r[5]}"><i style="width:${(r[4]/sc*100).toFixed(1)}%"></i><b style="left:${(r[5]/sc*100).toFixed(1)}%"></b></div><div class="gl"><span>Projection <strong>${r[4]}</strong></span><span>Line ${r[5]}</span></div><div class="pp">Model <strong>${r[6]}%</strong> · ${r[7]}% needed at this price</div></article>`}).join("");
 document.getElementById("avoid").innerHTML=avoid.map(r=>`<li><b>${r[0]}</b>: ${r[1]}</li>`).join("");
 document.getElementById("log").innerHTML=log.map(r=>`<tr><td data-l="Date" class="n">${r[0]}</td><td data-l="Game">${r[1]}</td><td data-l="Bet">${r[2]}</td><td data-l="Price" class="n">${r[3]}</td><td data-l="Result"><span class="r ${r[4]==="W"?"w":"l"}">${r[4]}</span> · ${r[5]}</td></tr>`).join("");
 }
