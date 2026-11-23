@@ -1,4 +1,6 @@
-# The Model Picks website: instructions for Claude
+# The Leg Up website: instructions for Claude
+
+The site's name is "The Leg Up" (logo, page title, footer).
 
 - This public repo holds only the website (index.html, served by GitHub Pages from main). Never add model code, data, API keys or anything from the private jackdlongmore/betting-model repo except the published picks and record.
 - Weekly update: after a slate card is final, update index.html (this week's plays, radar, staying away, record, archive) on a new branch named site/<yyyy-mm-dd> and open a pull request titled "Site update: <week label>". Never push site changes straight to main: the user approves by merging.
