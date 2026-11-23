@@ -1,4 +1,4 @@
-# The Model Picks
+# The Leg Up Report
 
 Public website for The Model's weekly NFL and college football picks:
 https://jackdlongmore.github.io/the-model/
