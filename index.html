@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Model Picks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday, a weekly picks sheet for a group of friends; confident but honest
+   IDEA the stadium scoreboard and the sportsbook ticket: each play reads like a lit board
+   PICTURE "The Board": five play panels with scoreboard projected scores and edge meters
+   COLOUR navy #0f1c2e field, mint #7fd1a8 lights, white panels, coral #f08a5d for caution
+   TYPE Barlow Condensed for scoreboard figures and titles + Inter for text
+   LAYOUT navy band with title and record, board grid under it; one column of panels on phones */
+:root{color-scheme:light dark;--bg:light-dark(#f3f5f8,#0b1422);--ink:light-dark(#18212d,#e6ecf3);--muted:light-dark(#5a6677,#9aa8ba);--panel:light-dark(#ffffff,#132238);--line:light-dark(#dfe4eb,#22344d);--navy:#0f1c2e;--mint:#7fd1a8;--mintd:light-dark(#1d6b45,#7fd1a8);--coral:light-dark(#b5531f,#f3a27e)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(4vw,16px);padding-right:max(4vw,16px)}
+nav{position:sticky;top:0;z-index:5;background:var(--navy);border-bottom:1px solid #22344d}
+nav .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap;min-height:56px}
+.logo{font:800 22px/1 "Barlow Condensed",sans-serif;color:#fff;text-decoration:none;margin-right:auto}
+.logo span{color:var(--mint)}
+nav a.l{color:#b8c4d4;text-decoration:none;font-size:14px;font-weight:500;padding:10px 2px}
+nav a.l:hover,nav a.l:focus-visible{color:#fff}
+.hero{background:var(--navy);color:#fff;padding:clamp(26px,4vw,48px) 0 clamp(90px,10vw,120px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end}
+.wk{color:var(--mint);font-weight:600;font-size:14px}
+h1{font:800 clamp(38px,6vw,64px)/1.02 "Barlow Condensed",sans-serif;letter-spacing:-.01em;margin:6px 0 8px;text-wrap:balance}
+.sub{color:#b8c4d4;font-size:15px;margin:0}
+.rec{background:#173a2b;border-radius:14px;padding:14px 20px;text-align:right}
+.rec b{display:block;font:800 clamp(44px,6vw,64px)/1 "Barlow Condensed",sans-serif;color:var(--mint)}
+.rec small{color:#cfe9dc;font-size:13px;white-space:nowrap}
+.board{margin-top:clamp(-96px,-8vw,-70px)}
+.grp{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:22px 0 10px}
+.grp h2{font:700 24px/1.1 "Barlow Condensed",sans-serif;margin:0}
+.board .grp:first-child h2{color:#fff}
+.board .grp:first-child span{color:#b8c4d4}
+.grp span{font-size:13px;color:var(--muted)}
+.plays{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px}
+.play{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 2px rgb(0 0 0 / .06)}
+.top{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
+.u{background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;align-self:start}
+.u.h{background:#5a6677}
+.bet{font:800 26px/1.05 "Barlow Condensed",sans-serif;margin:0}
+.best{font-size:13px;color:var(--muted)}
+.sb{background:var(--navy);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;color:#b8c4d4;font-size:12px}
+.sb b{display:block;font:700 21px/1.1 "Barlow Condensed",sans-serif;color:#fff}
+.sb .e b{color:var(--mint)}
+.meter{height:8px;background:var(--line);border-radius:6px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--mintd);border-radius:6px}
+.why{margin:0;font-size:15px}
+.risk{margin:0;font-size:13px;color:var(--coral)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px;margin-top:14px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.box h3{font:700 20px/1.1 "Barlow Condensed",sans-serif;margin:0 0 8px}
+.box ul{margin:0;padding-left:18px}
+.box li{margin:4px 0}
+.box.av h3{color:var(--coral)}
+section{padding:clamp(30px,4vw,52px) 0 0}
+section>h2,.sh{font:800 clamp(30px,4vw,40px)/1.05 "Barlow Condensed",sans-serif;margin:0 0 6px}
+.lede{color:var(--muted);margin:0 0 16px;max-width:68ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9em,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font:800 34px/1 "Barlow Condensed",sans-serif;color:var(--mintd)}
+.stat span{font-size:13px;color:var(--muted)}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600}
+td.n{white-space:nowrap}
+.r{font-weight:700;white-space:nowrap}
+.r.w{color:var(--mintd)}
+.r.l{color:var(--coral)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;margin-top:16px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.step b{font:700 18px/1.1 "Barlow Condensed",sans-serif;display:block;margin-bottom:4px}
+.step p{margin:0;font-size:14px;color:var(--muted)}
+.arch a{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;text-decoration:none;margin-bottom:8px}
+.arch a:hover,.arch a:focus-visible{border-color:var(--mintd)}
+footer{margin-top:48px;background:var(--navy);color:#b8c4d4;font-size:13px;padding:24px 0}
+footer b{color:#fff}
+@media(max-width:600px){.sb b{font-size:18px;white-space:normal}.sb{gap:8px}nav a.l{font-size:13px}.hero .wrap{grid-template-columns:1fr}.rec{text-align:left}table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:8px;border-bottom:1px solid var(--line)}.stack td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 12px}.stack td::before{content:attr(data-l);color:var(--muted);font-size:12px}}
+@media(prefers-reduced-motion:no-preference){.meter i{animation:fill .9s ease-out both}@keyframes fill{from{width:0}}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="logo" href="#top">The <span>Model</span></a>
+  <a class="l" href="#board">This week</a>
+  <a class="l" href="#record">Record</a>
+  <a class="l" href="#how">How it works</a>
+  <a class="l" href="#archive">Archive</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <div>
+    <div class="wk">Thanksgiving edition &middot; Nov 25&ndash;28</div>
+    <h1>The Model Picks &amp; Preview</h1>
+    <p class="sub">NFL Week 12 and College Football Week 13. Updated Monday, Nov 23. The final card arrives Wednesday at 12:41 PM ET.</p>
+  </div>
+  <div class="rec"><b>8&ndash;1</b><small>Model picks last weekend &middot; +6.2 units</small></div>
+</div></header>
+
+<main class="wrap">
+  <div class="board" id="board"></div>
+
+  <div class="two">
+    <div class="box"><h3>Also on the radar</h3><ul id="radar"></ul></div>
+    <div class="box av"><h3>Staying away</h3><ul id="avoid"></ul></div>
+  </div>
+
+  <section id="record">
+    <h2>The record</h2>
+    <p class="lede">Every model pick is graded here, wins and losses, at the line we took. Bets that didn't come from the model aren't counted. Tracking started the weekend of Nov 21, and one weekend is a small sample.</p>
+    <div class="stats">
+      <div class="stat"><b>8&ndash;1</b><span>All model picks</span></div>
+      <div class="stat"><b>4&ndash;0</b><span>College</span></div>
+      <div class="stat"><b>2&ndash;1</b><span>NFL sides and totals</span></div>
+      <div class="stat"><b>2&ndash;0</b><span>Player props</span></div>
+      <div class="stat"><b>+6.2</b><span>Units (1 unit per pick)</span></div>
+    </div>
+    <div class="scroll"><table class="stack">
+      <thead><tr><th>Date</th><th>Game</th><th>Bet</th><th>Price</th><th>Result</th></tr></thead>
+      <tbody id="log"></tbody>
+    </table></div>
+  </section>
+
+  <section id="how">
+    <h2>How the model works</h2>
+    <p class="lede">Three models project every game from opponent-adjusted efficiency, meaning how well each offense and defense has played given who it played. A projection only becomes a pick when a second, independent reason agrees with it.</p>
+    <div class="scroll"><table class="stack">
+      <thead><tr><th>Model</th><th>Tested on</th><th>Backtest result</th></tr></thead>
+      <tbody>
+        <tr><td data-l="Model">College totals</td><td data-l="Tested on">~2,900 games, 2023&ndash;26</td><td data-l="Result">52&ndash;54% vs opening totals; the line moved toward the model 58% of the time</td></tr>
+        <tr><td data-l="Model">College spreads</td><td data-l="Tested on">~2,900 games, 2023&ndash;26</td><td data-l="Result">~51% vs opening lines; the line moved toward the model 55% of the time</td></tr>
+        <tr><td data-l="Model">NFL spreads and totals</td><td data-l="Tested on">2,122 games, 2019&ndash;26</td><td data-l="Result">~50% vs closing lines, so it's used as a power rating, not a pick on its own</td></tr>
+      </tbody>
+    </table></div>
+    <div class="steps">
+      <div class="step"><b>Fresh data</b><p>Scores, efficiency stats, injuries and odds from 9 sportsbooks, updated six mornings a week.</p></div>
+      <div class="step"><b>Model run</b><p>Projected score, margin and total for every game, plus flags when a team's starting QB has changed.</p></div>
+      <div class="step"><b>Reality check</b><p>Injury news, weather, betting splits and line movement.</p></div>
+      <div class="step"><b>Two reasons</b><p>A play needs the model plus at least one independent signal. Zero picks is an acceptable week.</p></div>
+    </div>
+  </section>
+
+  <section id="archive">
+    <h2>Archive</h2>
+    <div class="arch">
+      <a href="#board"><span><b>Thanksgiving week</b> &middot; Nov 25&ndash;28</span><span>Preview, final on Wed</span></a>
+      <a href="#record"><span><b>Weekend of Nov 21&ndash;22</b></span><span class="r w">8&ndash;1</span></a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <b>The Model</b> &middot; Picks are opinions, not guarantees. Lines move, so check yours before you bet. 21+. Bet flat units and only what you can afford to lose. Gambling problem? Call 1-800-GAMBLER.
+</div></footer>
+
+<script>
+{
+const plays=[
+ {lg:"NFL",ko:"Thu 1:00 PM ET · Bears at Lions (dome)",bet:"Bears / Lions UNDER 55.5",u:1,best:"LowVig −107 · playable to 54.5",a:["Model score","DET 26–23"],b:["Model total","49.2"],e:["Edge","6.3 under",6.3],why:"55.5 is the highest total on the NFL board, and the model has it six points too high. It's a short holiday week, and a dome takes weather out of it.",risk:"Two good offenses indoors; a couple of early scores and this gets loud."},
+ {lg:"NFL",ko:"Thu 1:00 PM ET · Bears at Lions",bet:"Lions +2.5",u:.5,best:"LowVig −101 · buy to +3 at −120 or better",a:["Model margin","DET by 2.8"],b:["Market","CHI by 2.5"],e:["Edge","5.3 pts",5.3],why:"The model makes Detroit the better team at home, yet they're a home dog at almost even money.",risk:"Same game as the under, so this one is half size."},
+ {lg:"NFL",ko:"Fri 3:00 PM ET · Broncos at Steelers",bet:"Broncos / Steelers OVER 37.5",u:.5,best:"DraftKings −115 · playable to 38.5",a:["Model score","DEN 23–22"],b:["Model total","44.4"],e:["Edge","6.9 over",6.9],why:"The biggest NFL total edge of the week. The model says neither offense is as bad as 37.5 implies.",risk:"The market has moved the other way (39.5 to 37.5), and it's late November in Pittsburgh. Wednesday's weather check decides it."},
+ {lg:"CFB",ko:"Sat 6:15 PM ET · Kansas at Oklahoma State",bet:"Kansas / Oklahoma State UNDER 67.5",u:1,best:"FanDuel −110 · playable to 65.5",a:["Model score","OKST 27–27"],b:["Model total","54.3"],e:["Edge","13 under",13],why:"The biggest totals edge on the board. When the college totals model is 7+ points off the opener, the bet has hit about 54% in the backtest.",risk:"A gap this big can mean the market knows something. QB news gets checked Wednesday."},
+ {lg:"CFB",ko:"Fri 9:00 PM ET · Territorial Cup",bet:"Arizona −7.5 vs Arizona State",u:1,best:"FanDuel −105 · playable to −8.5",a:["Model score","ARIZ 32–19"],b:["Model margin","ARIZ by 13.4"],e:["Edge","5.9 pts",5.9],why:"ASU's backup, Jake Fette, has started four straight, so the model's ASU rating already reflects him. Arizona still projects to win by 13 at home.",risk:"Rivalry games run hot, and a backdoor cover is always possible."}
+];
+const radar=[["Kansas +7","BetOnline −110 · model has it even, 27–27"],["Eagles +8.5 at Dallas","Model: Dallas by 5"],["UConn / Wyoming OVER 47.5","Bovada −112 · model total 57"]];
+const avoid=[["UCLA +6.5","Biggest model edge on the board, but UCLA is down to its third-string QB."],["Northwestern −3 and the over","Aidan Chiles has been out since early November; the model is mostly built on him."],["Ohio State / Michigan over","Julian Sayin's injury, which the model can't see."]];
+const log=[["Nov 21","North Texas at Tulane","Under 55.5","−110","W","52 pts"],["Nov 21","UCLA at Michigan","Under 37.5","−110","W","34 pts"],["Nov 21","Kentucky at Missouri","Under 48.5","−115","W","42 pts"],["Nov 21","Oklahoma State at Arizona State","Oklahoma State −2.5","−115","W","Won by 3"],["Nov 22","Steelers at Eagles","Under 38.5","−110","W","35 pts"],["Nov 22","Jets at Chargers","Under 41.5","−110","L","51 pts"],["Nov 22","Vikings vs 49ers","49ers −3","−110","W","Won by 25"],["Nov 22","Steelers at Eagles","Joe Milton under 187.5 pass yds","−114","W","141 yds"],["Nov 22","Vikings vs 49ers","Justin Jefferson under 88.5 rec yds","−110","W","86 yds"]];
+const max=13;
+const card=p=>`<article class="play"><div class="top"><span>${p.ko}</span><span class="u${p.u<1?" h":""}">${p.u<1?"½ UNIT":"1 UNIT"}</span></div><h3 class="bet">${p.bet}</h3><div class="best">Best: ${p.best}</div><div class="sb"><div>${p.a[0]}<b>${p.a[1]}</b></div><div>${p.b[0]}<b>${p.b[1]}</b></div><div class="e">${p.e[0]}<b>${p.e[1]}</b></div></div><div class="meter" aria-label="Edge ${p.e[2]} of ${max}"><i style="width:${Math.round(p.e[2]/max*100)}%"></i></div><p class="why"><b>Why I like it:</b> ${p.why}</p><p class="risk">Risk: ${p.risk}</p></article>`;
+const grp=(lg,t,s)=>`<div class="grp"><h2>${t}</h2><span>${s}</span></div><div class="plays">${plays.filter(p=>p.lg===lg).map(card).join("")}</div>`;
+document.getElementById("board").innerHTML=grp("NFL","NFL · Thanksgiving week","Lines as of Mon 9 AM ET")+grp("CFB","College football · Rivalry week","Edge bars scaled to the week's biggest edge (13)");
+document.getElementById("radar").innerHTML=radar.map(r=>`<li><b>${r[0]}</b>: ${r[1]}</li>`).join("");
+document.getElementById("avoid").innerHTML=avoid.map(r=>`<li><b>${r[0]}</b>: ${r[1]}</li>`).join("");
+document.getElementById("log").innerHTML=log.map(r=>`<tr><td data-l="Date" class="n">${r[0]}</td><td data-l="Game">${r[1]}</td><td data-l="Bet">${r[2]}</td><td data-l="Price" class="n">${r[3]}</td><td data-l="Result"><span class="r ${r[4]==="W"?"w":"l"}">${r[4]}</span> · ${r[5]}</td></tr>`).join("");
+}
+</script>
+</body>
+</html>
