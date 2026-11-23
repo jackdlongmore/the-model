@@ -51,11 +51,27 @@ h1{font:800 clamp(38px,6vw,64px)/1.02 "Barlow Condensed",sans-serif;letter-spaci
 .sb{background:var(--navy);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;color:#b8c4d4;font-size:12px}
 .sb b{display:block;font:700 21px/1.1 "Barlow Condensed",sans-serif;color:#fff}
 .sb .e b{color:var(--mint)}
+.ml{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:-6px}
+.conf{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.dots{display:flex;gap:3px;flex:1}
+.dots i{flex:1;height:8px;border-radius:2px;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.conf b{font-size:14px;color:var(--ink);white-space:nowrap;min-width:5.2em;text-align:right}
+.dots i.on{background:var(--mintd)}
+.wp{font-size:12px;color:var(--muted);margin-top:-4px}
 .meter{height:8px;background:var(--line);border-radius:6px;overflow:hidden}
 .meter i{display:block;height:100%;background:var(--mintd);border-radius:6px}
 .why{margin:0;font-size:15px}
 .risk{margin:0;font-size:13px;color:var(--coral)}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px;margin-top:14px}
+.leans{display:grid;gap:8px}
+.lean{display:grid;grid-template-columns:minmax(0,1.4fr) auto minmax(0,1.6fr);gap:6px 16px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.lean b.t{font:700 19px/1.15 "Barlow Condensed",sans-serif}
+.lean .k{font-size:12px;color:var(--muted)}
+.lean .num{text-align:right;white-space:nowrap;font-size:13px;color:var(--muted)}
+.lean .num b{display:block;font:700 18px/1.1 "Barlow Condensed",sans-serif;color:var(--mintd)}
+.lean .c{font-size:13.5px}
+@media(max-width:600px){.lean{grid-template-columns:minmax(0,1fr) auto}.lean .c{grid-column:1/-1}}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 .box h3{font:700 20px/1.1 "Barlow Condensed",sans-serif;margin:0 0 8px}
 .box ul{margin:0;padding-left:18px}
@@ -105,26 +121,28 @@ footer b{color:#fff}
     <h1>The Model Picks &amp; Preview</h1>
     <p class="sub">NFL Week 12 and College Football Week 13. Updated Monday, Nov 23 at 1:41 PM ET. The final card arrives Wednesday at 12:41 PM ET.</p>
   </div>
-  <div class="rec"><b>8&ndash;1</b><small>Model picks last weekend &middot; +6.2 units</small></div>
+  <div class="rec"><b>8&ndash;1</b><small>Best bets last weekend &middot; +6.2 units</small></div>
 </div></header>
 
 <main class="wrap">
   <div class="board" id="board"></div>
 
+  <div class="grp"><h2>Leans</h2><span>Shown for information, ½ unit at most, tracked separately from the record</span></div>
+  <div class="leans" id="leans"></div>
   <div class="two">
-    <div class="box"><h3>Also on the radar</h3><ul id="radar"></ul></div>
     <div class="box av"><h3>Staying away</h3><ul id="avoid"></ul></div>
+    <div class="box"><h3>How a lean becomes a best bet</h3><ul><li>The model and at least two independent signals agree</li><li>The line hasn't moved against us</li><li>No correlated best bet in the same game</li><li>Confidence tiers: <b>Solid</b> is a good bet with a real edge, <b>Strong</b> adds strong supporting signals, and <b>Top play</b> is rare. Every tier is a bet worth making; leans sit below Solid. Confidence is separate from edge size.</li></ul></div>
   </div>
 
   <section id="record">
     <h2>The record</h2>
-    <p class="lede">Every model pick is graded here, wins and losses, at the line we took. Bets that didn't come from the model aren't counted. Tracking started the weekend of Nov 21, and one weekend is a small sample.</p>
+    <p class="lede">Every best bet is graded here, wins and losses, at the line we took. Bets that didn't come from the model aren't counted. Tracking started the weekend of Nov 21, and one weekend is a small sample.</p>
     <div class="stats">
-      <div class="stat"><b>8&ndash;1</b><span>All model picks</span></div>
+      <div class="stat"><b>8&ndash;1</b><span>All best bets</span></div>
       <div class="stat"><b>4&ndash;0</b><span>College</span></div>
       <div class="stat"><b>2&ndash;1</b><span>NFL sides and totals</span></div>
       <div class="stat"><b>2&ndash;0</b><span>Player props</span></div>
-      <div class="stat"><b>+6.2</b><span>Units (1 unit per pick)</span></div>
+      <div class="stat"><b>+6.2</b><span>Units (1 unit per best bet)</span></div>
     </div>
     <div class="scroll"><table class="stack">
       <thead><tr><th>Date</th><th>Game</th><th>Bet</th><th>Price</th><th>Result</th></tr></thead>
@@ -167,20 +185,25 @@ footer b{color:#fff}
 <script>
 {
 const plays=[
- {lg:"NFL",ko:"Thu 1:00 PM ET · Bears at Lions (dome)",bet:"Bears / Lions UNDER 55.5",u:1,best:"LowVig −107 · playable to 54.5",a:["Model score","DET 26–23"],b:["Model total","49.2"],e:["Edge","6.3 under",6.3],why:"55.5 is the highest total on the NFL board, and the model has it six points too high. It's a short holiday week, and a dome takes weather out of it.",risk:"Two good offenses indoors; a couple of early scores and this gets loud."},
- {lg:"NFL",ko:"Thu 1:00 PM ET · Bears at Lions",bet:"Lions +2.5",u:.5,best:"LowVig −101 · buy to +3 at −120 or better",a:["Model margin","DET by 2.8"],b:["Market","CHI by 2.5"],e:["Edge","5.3 pts",5.3],why:"The model makes Detroit the better team at home, yet they're a home dog at almost even money.",risk:"Same game as the under, so this one is half size."},
- {lg:"NFL",ko:"Fri 3:00 PM ET · Broncos at Steelers",bet:"Broncos / Steelers OVER 37.5",u:.5,best:"DraftKings −115 · playable to 38.5",a:["Model score","DEN 23–22"],b:["Model total","44.4"],e:["Edge","6.9 over",6.9],why:"The biggest NFL total edge of the week. The model says neither offense is as bad as 37.5 implies.",risk:"The market has moved the other way (39.5 to 37.5), and it's late November in Pittsburgh. Wednesday's weather check decides it."},
- {lg:"CFB",ko:"Sat 6:15 PM ET · Kansas at Oklahoma State",bet:"Kansas / Oklahoma State UNDER 67.5",u:1,best:"BetRivers −112 · playable to 65.5",a:["Model score","OKST 27–27"],b:["Model total","54.3"],e:["Edge","13 under",13],why:"The biggest totals edge on the board. When the college totals model is 7+ points off the opener, the bet has hit about 54% in the backtest.",risk:"A gap this big can mean the market knows something. QB news gets checked Wednesday."},
- {lg:"CFB",ko:"Fri 9:00 PM ET · Territorial Cup",bet:"Arizona −7.5 vs Arizona State",u:1,best:"BetRivers −115 · playable to −8.5",a:["Model score","ARIZ 32–19"],b:["Model margin","ARIZ by 13.4"],e:["Edge","5.9 pts",5.9],why:"ASU's backup, Jake Fette, has started four straight, so the model's ASU rating already reflects him. Arizona still projects to win by 13 at home.",risk:"Rivalry games run hot, and a backdoor cover is always possible."}
+ {lg:"CFB",ko:"Sat 6:15 PM ET · Kansas at Oklahoma State",bet:"Kansas / Oklahoma State UNDER 67.5",u:1,best:"BetRivers −112 · playable to 65.5",a:["Model score","OKST 27–27"],b:["Model total","54.3"],e:["Edge","13 under",13],c:4,wp:"Est. 55% to win · 52.8% needed at −112",why:"The biggest totals edge on the board. When the college totals model is 7+ points off the opener, the bet has hit about 54% in the backtest.",risk:"A gap this big can mean the market knows something. QB news gets checked Wednesday."},
+ {lg:"CFB",ko:"Fri 9:00 PM ET · Territorial Cup",bet:"Arizona −7.5 vs Arizona State",u:1,best:"BetRivers −115 · playable to −8.5",a:["Model score","ARIZ 32–19"],b:["Model margin","ARIZ by 13.4"],e:["Edge","5.9 pts",5.9],c:3,wp:"Est. 54% to cover · 53.5% needed at −115, so look for −110 or better",why:"ASU's backup, Jake Fette, has started four straight, so the model's ASU rating already reflects him. Arizona still projects to win by 13 at home.",risk:"Rivalry games run hot, and a backdoor cover is always possible."}
+];
+const leans=[
+ ["Bears / Lions UNDER 55.5","Thu · LowVig −107","Model total 49.2","6.3","Needs a second signal Wednesday (injury report, betting splits) to become a best bet."],
+ ["Broncos / Steelers OVER 37.5","Fri · DraftKings −115","Model total 44.4","6.9","Market has moved against it (39.5 to 37.5). Wednesday's weather check decides it."],
+ ["Lions +2.5","Thu · LowVig −101","DET by 2.8","5.3","Same game as the under, and NFL sides are the model's weakest market."],
+ ["Kansas +7","Sat · MyBookie −110","Model: 27–27","7.0","Pairs with the Kansas/Oklahoma State under, so pick one, not both."],
+ ["Eagles +8.5 at Dallas","Thu","DAL by 5.1","3.4","Edge is real but modest for an NFL side."],
+ ["UConn / Wyoming OVER 47.5","Sat · Bovada −112","Model total 57","9.5","Late November in Laramie; weather could flip it."]
 ];
 const radar=[["Kansas +7","MyBookie −110 · model has it even, 27–27"],["Eagles +8.5 at Dallas","Model: Dallas by 5"],["UConn / Wyoming OVER 47.5","Bovada −112 · model total 57"]];
 const avoid=[["UCLA +6.5","Biggest model edge on the board, but UCLA is down to its third-string QB."],["Northwestern −3 and the over","Aidan Chiles has been out since early November; the model is mostly built on him."],["Ohio State / Michigan over","Julian Sayin's injury, which the model can't see."]];
 const log=[["Nov 21","North Texas at Tulane","Under 55.5","−110","W","52 pts"],["Nov 21","UCLA at Michigan","Under 37.5","−110","W","34 pts"],["Nov 21","Kentucky at Missouri","Under 48.5","−115","W","42 pts"],["Nov 21","Oklahoma State at Arizona State","Oklahoma State −2.5","−115","W","Won by 3"],["Nov 22","Steelers at Eagles","Under 38.5","−110","W","35 pts"],["Nov 22","Jets at Chargers","Under 41.5","−110","L","51 pts"],["Nov 22","Vikings vs 49ers","49ers −3","−110","W","Won by 25"],["Nov 22","Steelers at Eagles","Joe Milton under 187.5 pass yds","−114","W","141 yds"],["Nov 22","Vikings vs 49ers","Justin Jefferson under 88.5 rec yds","−110","W","86 yds"]];
 const max=13;
-const card=p=>`<article class="play"><div class="top"><span>${p.ko}</span><span class="u${p.u<1?" h":""}">${p.u<1?"½ UNIT":"1 UNIT"}</span></div><h3 class="bet">${p.bet}</h3><div class="best">Best: ${p.best}</div><div class="sb"><div>${p.a[0]}<b>${p.a[1]}</b></div><div>${p.b[0]}<b>${p.b[1]}</b></div><div class="e">${p.e[0]}<b>${p.e[1]}</b></div></div><div class="meter" aria-label="Edge ${p.e[2]} of ${max}"><i style="width:${Math.round(p.e[2]/max*100)}%"></i></div><p class="why"><b>Why I like it:</b> ${p.why}</p><p class="risk">Risk: ${p.risk}</p></article>`;
+const card=p=>`<article class="play"><div class="top"><span>${p.ko}</span><span class="u${p.u<1?" h":""}">${p.u<1?"½ UNIT":"1 UNIT"}</span></div><h3 class="bet">${p.bet}</h3><div class="best">Best: ${p.best}</div><div class="sb"><div>${p.a[0]}<b>${p.a[1]}</b></div><div>${p.b[0]}<b>${p.b[1]}</b></div><div class="e">${p.e[0]}<b>${p.e[1]}</b></div></div><div class="ml"><span>Edge vs market</span><span>${p.e[2]} pts</span></div><div class="meter" aria-label="Edge ${p.e[2]} points of ${max}"><i style="width:${Math.round(p.e[2]/max*100)}%"></i></div><div class="conf"><span>Confidence</span><span class="dots" aria-hidden="true">${Array.from({length:5},(_,i)=>`<i class="${i<p.c?"on":""}"></i>`).join("")}</span><b>${["","","","Solid","Strong","Top play"][p.c]}</b></div><div class="wp">${p.wp}</div><p class="why"><b>Why I like it:</b> ${p.why}</p><p class="risk">Risk: ${p.risk}</p></article>`;
 const grp=(lg,t,s)=>`<div class="grp"><h2>${t}</h2><span>${s}</span></div><div class="plays">${plays.filter(p=>p.lg===lg).map(card).join("")}</div>`;
-document.getElementById("board").innerHTML=grp("NFL","NFL · Thanksgiving week","Lines as of Mon 1:41 PM ET")+grp("CFB","College football · Rivalry week","Edge bars scaled to the week's biggest edge (13)");
-document.getElementById("radar").innerHTML=radar.map(r=>`<li><b>${r[0]}</b>: ${r[1]}</li>`).join("");
+document.getElementById("board").innerHTML=`<div class="grp"><h2>Best bets · 2 this week</h2><span>1 unit each · lines as of Mon 1:41 PM ET</span></div><div class="plays">${plays.map(card).join("")}</div>`;
+document.getElementById("leans").innerHTML=leans.map(l=>`<div class="lean"><div><b class="t">${l[0]}</b><div class="k">${l[1]}</div></div><div class="num">${l[2]}<b>Edge ${l[3]}</b></div><div class="c">${l[4]}</div></div>`).join("");
 document.getElementById("avoid").innerHTML=avoid.map(r=>`<li><b>${r[0]}</b>: ${r[1]}</li>`).join("");
 document.getElementById("log").innerHTML=log.map(r=>`<tr><td data-l="Date" class="n">${r[0]}</td><td data-l="Game">${r[1]}</td><td data-l="Bet">${r[2]}</td><td data-l="Price" class="n">${r[3]}</td><td data-l="Result"><span class="r ${r[4]==="W"?"w":"l"}">${r[4]}</span> · ${r[5]}</td></tr>`).join("");
 }
