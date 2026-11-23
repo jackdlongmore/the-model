@@ -41,6 +41,8 @@ h1{font:800 clamp(38px,6vw,64px)/1.02 "Barlow Condensed",sans-serif;letter-spaci
 .board .grp:first-child h2{color:#fff}
 .board .grp:first-child span{color:#b8c4d4}
 .grp span{font-size:13px;color:var(--muted)}
+.grp.lg{justify-content:flex-start;align-items:baseline;gap:12px;flex-wrap:wrap}
+.grp.lg strong{font-size:14px;color:var(--ink)}
 .plays{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px}
 .play{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 2px rgb(0 0 0 / .06)}
 .top{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
@@ -140,7 +142,7 @@ footer b{color:#fff}
 <main class="wrap">
   <div class="board" id="board"></div>
 
-  <div class="grp"><h2>Leans</h2><span>Shown for information, ½ unit at most, tracked separately from the record</span></div>
+  <div class="grp lg"><h2>Leans</h2><strong>Shown for information, ½ unit at most, tracked separately from the record</strong></div>
   <div class="leans" id="leans"></div>
   <div class="two">
     <div class="box av"><h3>Staying away</h3><ul id="avoid"></ul></div>
@@ -205,14 +207,14 @@ footer b{color:#fff}
 <script>
 {
 const plays=[
- {lg:"CFB",ko:"Sat 6:15 PM ET · Kansas at Oklahoma State",bet:"Kansas / Oklahoma State UNDER 67.5",u:1,best:"BetRivers −112 · playable to 65.5",a:["Model score","OKST 27–27"],b:["Model total","54.3"],e:["Edge","13 under",13],c:4,wp:"Est. 55% to win · 52.8% needed at −112",why:"The biggest totals edge on the board. When the college totals model is 7+ points off the opener, the bet has hit about 54% in the backtest.",risk:"A gap this big can mean the market knows something. QB news gets checked Wednesday."},
+ {lg:"CFB",ko:"Sat 6:15 PM ET · Kansas at Oklahoma State",bet:"Kansas / Oklahoma State UNDER 67.5",u:1,best:"BetRivers −112 · playable to 65.5",a:["Model score","OKST 27.5–26.9"],b:["Model total","54.3"],e:["Edge","13 under",13],c:4,wp:"Est. 55% to win · 52.8% needed at −112",why:"The biggest totals edge on the board. When the college totals model is 7+ points off the opener, the bet has hit about 54% in the backtest.",risk:"A gap this big can mean the market knows something. QB news gets checked Wednesday."},
  {lg:"CFB",ko:"Fri 9:00 PM ET · Territorial Cup",bet:"Arizona −7.5 vs Arizona State",u:1,best:"BetRivers −115 · playable to −8.5",a:["Model score","ARIZ 32–19"],b:["Model margin","ARIZ by 13.4"],e:["Edge","5.9 pts",5.9],c:3,wp:"Est. 54% to cover · 53.5% needed at −115, so look for −110 or better",why:"ASU's backup, Jake Fette, has started four straight, so the model's ASU rating already reflects him. Arizona still projects to win by 13 at home.",risk:"Rivalry games run hot, and a backdoor cover is always possible."}
 ];
 const leans=[
  ["Bears / Lions UNDER 55.5","Thu · LowVig −107","Model total 49.2","6.3","Needs a second signal Wednesday (injury report, betting splits) to become a best bet."],
  ["Broncos / Steelers OVER 37.5","Fri · DraftKings −115","Model total 44.4","6.9","Market has moved against it (39.5 to 37.5). Wednesday's weather check decides it."],
  ["Lions +2.5","Thu · LowVig −101","DET by 2.8","5.3","Same game as the under, and NFL sides are the model's weakest market."],
- ["Kansas +7","Sat · MyBookie −110","Model: 27–27","7.0","Pairs with the Kansas/Oklahoma State under, so pick one, not both."],
+ ["Kansas +7","Sat · MyBookie −110","OKST by 0.6","7.0","Pairs with the Kansas/Oklahoma State under, so pick one, not both."],
  ["Eagles +8.5 at Dallas","Thu","DAL by 5.1","3.4","Edge is real but modest for an NFL side."],
  ["UConn / Wyoming OVER 47.5","Sat · Bovada −112","Model total 57","9.5","Late November in Laramie; weather could flip it."]
 ];
