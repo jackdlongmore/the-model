@@ -56,7 +56,9 @@ h1{font:800 clamp(38px,6vw,64px)/1.02 "Barlow Condensed",sans-serif;letter-spaci
 .dots{display:flex;gap:3px;flex:1}
 .dots i{flex:1;height:8px;border-radius:2px;background:var(--line)}
 .dots i.on{background:var(--ink)}
-.conf b{font-size:14px;color:var(--ink);white-space:nowrap}
+.conf b{font-size:14px;color:var(--ink);white-space:nowrap;min-width:5.2em;text-align:right}
+.dots i.on{background:var(--mintd)}
+.wp{font-size:12px;color:var(--muted);margin-top:-4px}
 .meter{height:8px;background:var(--line);border-radius:6px;overflow:hidden}
 .meter i{display:block;height:100%;background:var(--mintd);border-radius:6px}
 .why{margin:0;font-size:15px}
@@ -129,7 +131,7 @@ footer b{color:#fff}
   <div class="leans" id="leans"></div>
   <div class="two">
     <div class="box av"><h3>Staying away</h3><ul id="avoid"></ul></div>
-    <div class="box"><h3>How a lean becomes a best bet</h3><ul><li>The model and at least two independent signals agree</li><li>The line hasn't moved against us</li><li>No correlated best bet in the same game</li><li>Confidence (1–10) weighs the model's track record in that market, line movement, injuries and weather. It is separate from the size of the edge.</li></ul></div>
+    <div class="box"><h3>How a lean becomes a best bet</h3><ul><li>The model and at least two independent signals agree</li><li>The line hasn't moved against us</li><li>No correlated best bet in the same game</li><li>Confidence tiers: <b>Solid</b> is a good bet with a real edge, <b>Strong</b> adds strong supporting signals, and <b>Top play</b> is rare. Every tier is a bet worth making; leans sit below Solid. Confidence is separate from edge size.</li></ul></div>
   </div>
 
   <section id="record">
@@ -183,8 +185,8 @@ footer b{color:#fff}
 <script>
 {
 const plays=[
- {lg:"CFB",ko:"Sat 6:15 PM ET · Kansas at Oklahoma State",bet:"Kansas / Oklahoma State UNDER 67.5",u:1,best:"BetRivers −112 · playable to 65.5",a:["Model score","OKST 27–27"],b:["Model total","54.3"],e:["Edge","13 under",13],c:6,why:"The biggest totals edge on the board. When the college totals model is 7+ points off the opener, the bet has hit about 54% in the backtest.",risk:"A gap this big can mean the market knows something. QB news gets checked Wednesday."},
- {lg:"CFB",ko:"Fri 9:00 PM ET · Territorial Cup",bet:"Arizona −7.5 vs Arizona State",u:1,best:"BetRivers −115 · playable to −8.5",a:["Model score","ARIZ 32–19"],b:["Model margin","ARIZ by 13.4"],e:["Edge","5.9 pts",5.9],c:5,why:"ASU's backup, Jake Fette, has started four straight, so the model's ASU rating already reflects him. Arizona still projects to win by 13 at home.",risk:"Rivalry games run hot, and a backdoor cover is always possible."}
+ {lg:"CFB",ko:"Sat 6:15 PM ET · Kansas at Oklahoma State",bet:"Kansas / Oklahoma State UNDER 67.5",u:1,best:"BetRivers −112 · playable to 65.5",a:["Model score","OKST 27–27"],b:["Model total","54.3"],e:["Edge","13 under",13],c:4,wp:"Est. 55% to win · 52.8% needed at −112",why:"The biggest totals edge on the board. When the college totals model is 7+ points off the opener, the bet has hit about 54% in the backtest.",risk:"A gap this big can mean the market knows something. QB news gets checked Wednesday."},
+ {lg:"CFB",ko:"Fri 9:00 PM ET · Territorial Cup",bet:"Arizona −7.5 vs Arizona State",u:1,best:"BetRivers −115 · playable to −8.5",a:["Model score","ARIZ 32–19"],b:["Model margin","ARIZ by 13.4"],e:["Edge","5.9 pts",5.9],c:3,wp:"Est. 54% to cover · 53.5% needed at −115, so look for −110 or better",why:"ASU's backup, Jake Fette, has started four straight, so the model's ASU rating already reflects him. Arizona still projects to win by 13 at home.",risk:"Rivalry games run hot, and a backdoor cover is always possible."}
 ];
 const leans=[
  ["Bears / Lions UNDER 55.5","Thu · LowVig −107","Model total 49.2","6.3","Needs a second signal Wednesday (injury report, betting splits) to become a best bet."],
@@ -198,7 +200,7 @@ const radar=[["Kansas +7","MyBookie −110 · model has it even, 27–27"],["Eag
 const avoid=[["UCLA +6.5","Biggest model edge on the board, but UCLA is down to its third-string QB."],["Northwestern −3 and the over","Aidan Chiles has been out since early November; the model is mostly built on him."],["Ohio State / Michigan over","Julian Sayin's injury, which the model can't see."]];
 const log=[["Nov 21","North Texas at Tulane","Under 55.5","−110","W","52 pts"],["Nov 21","UCLA at Michigan","Under 37.5","−110","W","34 pts"],["Nov 21","Kentucky at Missouri","Under 48.5","−115","W","42 pts"],["Nov 21","Oklahoma State at Arizona State","Oklahoma State −2.5","−115","W","Won by 3"],["Nov 22","Steelers at Eagles","Under 38.5","−110","W","35 pts"],["Nov 22","Jets at Chargers","Under 41.5","−110","L","51 pts"],["Nov 22","Vikings vs 49ers","49ers −3","−110","W","Won by 25"],["Nov 22","Steelers at Eagles","Joe Milton under 187.5 pass yds","−114","W","141 yds"],["Nov 22","Vikings vs 49ers","Justin Jefferson under 88.5 rec yds","−110","W","86 yds"]];
 const max=13;
-const card=p=>`<article class="play"><div class="top"><span>${p.ko}</span><span class="u${p.u<1?" h":""}">${p.u<1?"½ UNIT":"1 UNIT"}</span></div><h3 class="bet">${p.bet}</h3><div class="best">Best: ${p.best}</div><div class="sb"><div>${p.a[0]}<b>${p.a[1]}</b></div><div>${p.b[0]}<b>${p.b[1]}</b></div><div class="e">${p.e[0]}<b>${p.e[1]}</b></div></div><div class="ml"><span>Edge vs market</span><span>${p.e[2]} pts</span></div><div class="meter" aria-label="Edge ${p.e[2]} points of ${max}"><i style="width:${Math.round(p.e[2]/max*100)}%"></i></div><div class="conf"><span>Confidence</span><span class="dots" aria-hidden="true">${Array.from({length:10},(_,i)=>`<i class="${i<p.c?"on":""}"></i>`).join("")}</span><b>${p.c}/10</b></div><p class="why"><b>Why I like it:</b> ${p.why}</p><p class="risk">Risk: ${p.risk}</p></article>`;
+const card=p=>`<article class="play"><div class="top"><span>${p.ko}</span><span class="u${p.u<1?" h":""}">${p.u<1?"½ UNIT":"1 UNIT"}</span></div><h3 class="bet">${p.bet}</h3><div class="best">Best: ${p.best}</div><div class="sb"><div>${p.a[0]}<b>${p.a[1]}</b></div><div>${p.b[0]}<b>${p.b[1]}</b></div><div class="e">${p.e[0]}<b>${p.e[1]}</b></div></div><div class="ml"><span>Edge vs market</span><span>${p.e[2]} pts</span></div><div class="meter" aria-label="Edge ${p.e[2]} points of ${max}"><i style="width:${Math.round(p.e[2]/max*100)}%"></i></div><div class="conf"><span>Confidence</span><span class="dots" aria-hidden="true">${Array.from({length:5},(_,i)=>`<i class="${i<p.c?"on":""}"></i>`).join("")}</span><b>${["","","","Solid","Strong","Top play"][p.c]}</b></div><div class="wp">${p.wp}</div><p class="why"><b>Why I like it:</b> ${p.why}</p><p class="risk">Risk: ${p.risk}</p></article>`;
 const grp=(lg,t,s)=>`<div class="grp"><h2>${t}</h2><span>${s}</span></div><div class="plays">${plays.filter(p=>p.lg===lg).map(card).join("")}</div>`;
 document.getElementById("board").innerHTML=`<div class="grp"><h2>Best bets · 2 this week</h2><span>1 unit each · lines as of Mon 1:41 PM ET</span></div><div class="plays">${plays.map(card).join("")}</div>`;
 document.getElementById("leans").innerHTML=leans.map(l=>`<div class="lean"><div><b class="t">${l[0]}</b><div class="k">${l[1]}</div></div><div class="num">${l[2]}<b>Edge ${l[3]}</b></div><div class="c">${l[4]}</div></div>`).join("");
